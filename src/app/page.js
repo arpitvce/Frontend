@@ -8,7 +8,7 @@ export default function home(){
 
 	useEffect(()=>
 		{async function fetchdata()
-			{ const response=await fetch(`https://projects-8xja.vercel.app/top/200/${branch}`);
+			{ const response=await fetch(`https://rankers-eqqy.onrender.com/top/200/${branch}`);
 			  const json=await response.json();
 			  setData(json);
 			}
