@@ -1,39 +1,53 @@
- async function getranks(numbers,branch){
+"use client"
+import {useState,useEffect} from "react"
 
-  const url=await fetch(`https://projects-8xja.vercel.app/top/${numbers}/${branch}`);
-  const result=await url.json();
-  return result;
-}
+export default function home(){
+	 
+	const [data,setData]=useState([]);
+	const [branch,setBranch]=useState("CSE");
 
-export default async function allranks(){
+	useEffect(()=>
+		{async function fetchdata()
+			{ const response=await fetch(`https://projects-8xja.vercel.app/top/200/${branch}`);
+			  const json=await response.json();
+			  setData(json);
+			}
+			fetchdata();
+		},[branch]);
+	
 
-  const data=await getranks(100,"CSE");
+	return (
 
-  return (
-
-    <table className="mx-auto border-separate border border-spacing-y-0.5 bg-black text-white p-5">
-      <thead>
-      <tr>
-            <th className="p-10"> Rank </th>
-            <th className="p-10"> Name </th>
-            <th className="p-15"> Roll No.</th>
-            <th className="p-15"> Branch </th>
-            <th className="p-5"> CGPA </th>
-      </tr>
-      </thead>
-      <tbody>
-      {data.map((student,index)=> (
-            <tr key={index+1}>
-              <td>  {student.rank} </td>
-              <td> {student.name}</td>
-              <td> {student.htno}</td>
-              <td> {student.branch}</td>
-              <td> {student.CGPA} </td>
-            </tr>
-      ))}
-      </tbody>
-    </table>
-  )
-
+		<div className ="bg-black text-white p-6 min-h-screen">
+		<select value={branch} onChange={(e) => setBranch(e.target.value)} className="bg-black text-white p-2 rounded">
+		<option value="CSE" className="bg-black text-white"> CSE </option>
+		<option value="ECE" className="bg-white text-black"> ECE </option>
+		<option value="IT" className="bg-black text-white"> IT </option>
+		<option value="CSM" className="bg-white text-black"> CS&AIML </option>
+		</select>
+		<table className="mx-auto mt-6 bg-black border border-white">
+		<thead>
+			<tr>
+			<th className="border p-3"> Rank </th>
+			<th className="border p-3"> Name </th>
+			<th className="border p-3"> CGPA </th>
+			<th className="border p-3"> Roll No. </th>
+			<th className="border p-3"> Branch </th>
+			</tr>
+		</thead>
+		<tbody>
+			{data.map((student,index)=>(
+				<tr key={index}>
+				<td className="border p-3"> {student.rank} </td>
+				<td className="border p-3"> {student.name} </td>
+				<td className="border p-3"> {student.CGPA} </td>
+				<td className="border p-3"> {student.htno} </td>
+				<td className="border p-3"> {student.branch} </td>
+				</tr>
+			))}
+		</tbody>
+		</table>
+		</div>
+		);
 }
 
