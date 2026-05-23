@@ -24,6 +24,7 @@ export default function home(){
 		<option value="ECE" className="bg-white text-black"> ECE </option>
 		<option value="IT" className="bg-black text-white"> IT </option>
 		<option value="CSM" className="bg-white text-black"> CS&AIML </option>
+		<option value="EEE" className="bg-black text-white"> EEE </option>
 		</select>
 		<table className="mx-auto mt-6 bg-black border border-white">
 		<thead>
