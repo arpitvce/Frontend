@@ -14,8 +14,36 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [branch, setBranch] = useState("CSE");
   const [averageCgpa, setAverageCgpa] = useState("--");
+  const [branchAverages, setBranchAverages] = useState(
+    Object.fromEntries(branches.map((item) => [item.value, "--"]))
+  );
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchAllBranchAverages() {
+      const averages = await Promise.all(
+        branches.map(async (item) => [
+          item.value,
+          await fetchAverageCgpa(item.value, controller.signal),
+        ])
+      );
+
+      setBranchAverages(Object.fromEntries(averages));
+    }
+
+    fetchAllBranchAverages().catch((err) => {
+      if (err.name !== "AbortError") {
+        setBranchAverages(
+          Object.fromEntries(branches.map((item) => [item.value, "--"]))
+        );
+      }
+    });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -104,6 +132,25 @@ export default function Home() {
               <span className="rounded-md border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold text-white backdrop-blur">
                 Top 200 by branch
               </span>
+            </div>
+
+            <div className="mt-10 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {branches.map((item) => (
+                <article
+                  key={item.value}
+                  className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur"
+                >
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#f3c85b]">
+                    {item.label}
+                  </p>
+                  <p className="mt-2 text-3xl font-black text-white">
+                    {branchAverages[item.value]}
+                  </p>
+                  <p className="mt-1 text-xs font-semibold text-white/70">
+                    Average CGPA
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </div>
