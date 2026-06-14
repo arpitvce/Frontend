@@ -91,7 +91,7 @@ export default function Home() {
         className="relative isolate min-h-[86vh] overflow-hidden bg-[#17211b] text-white"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, rgba(23,33,27,0.96) 0%, rgba(23,33,27,0.78) 48%, rgba(23,33,27,0.28) 100%), url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1800&q=80')",
+            "linear-gradient(90deg, rgba(23,33,27,0.9) 0%, rgba(23,33,27,0.62) 46%, rgba(23,33,27,0.12) 100%), url('/ranker-landing.png')",
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
@@ -99,7 +99,7 @@ export default function Home() {
         <div className="absolute inset-x-0 top-0 border-b border-white/15">
           <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
             <a href="#" className="text-lg font-black tracking-wide">
-              RankVista
+              Ranker
             </a>
             <a
               href="#rankings"
@@ -116,11 +116,10 @@ export default function Home() {
               Branch-wise academic leaderboard
             </p>
             <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[1.02] text-white sm:text-6xl lg:text-7xl">
-              RankVista
+              Ranker
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/82">
-              A sharp, fast leaderboard for discovering top student performance
-              across CSE, ECE, IT, CS & AIML, and EEE.
+              Check your competition before drowning in it.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a

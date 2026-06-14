@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Student Rankings",
-  description: "Branch-wise student leaderboard and CGPA rankings.",
+  title: "Ranker",
+  description: "Check your competition before drowning in it.",
 };
 
 export default function RootLayout({ children }) {
