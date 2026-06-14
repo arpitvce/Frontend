@@ -61,6 +61,56 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#f5f0e8] text-[#17211b]">
+      <section
+        className="relative isolate min-h-[86vh] overflow-hidden bg-[#17211b] text-white"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, rgba(23,33,27,0.96) 0%, rgba(23,33,27,0.78) 48%, rgba(23,33,27,0.28) 100%), url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1800&q=80')",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="absolute inset-x-0 top-0 border-b border-white/15">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+            <a href="#" className="text-lg font-black tracking-wide">
+              RankVista
+            </a>
+            <a
+              href="#rankings"
+              className="rounded-md border border-white/30 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white hover:text-[#17211b]"
+            >
+              View rankings
+            </a>
+          </div>
+        </div>
+
+        <div className="mx-auto flex min-h-[86vh] w-full max-w-7xl items-end px-5 pb-12 pt-28 sm:px-8 lg:pb-16">
+          <div className="max-w-4xl">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#f3c85b]">
+              Branch-wise academic leaderboard
+            </p>
+            <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[1.02] text-white sm:text-6xl lg:text-7xl">
+              RankVista
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/82">
+              A sharp, fast leaderboard for discovering top student performance
+              across CSE, ECE, IT, CS & AIML, and EEE.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#rankings"
+                className="rounded-md bg-[#f3c85b] px-5 py-3 text-sm font-black text-[#17211b] shadow-lg shadow-black/20 transition hover:bg-white"
+              >
+                Explore leaderboard
+              </a>
+              <span className="rounded-md border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold text-white backdrop-blur">
+                Top 200 by branch
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-[#d8d0c3] bg-[#fffaf1]">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-8 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:py-10">
           <div className="max-w-3xl">
@@ -93,7 +143,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:py-8">
+      <section
+        id="rankings"
+        className="scroll-mt-6 mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:py-8"
+      >
         <div className="grid gap-3 sm:grid-cols-3">
           <Metric label="Students shown" value={status === "success" ? data.length : "--"} />
           <Metric label="Average CGPA" value={averageCgpa} />
