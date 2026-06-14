@@ -13,6 +13,7 @@ const branches = [
 export default function Home() {
   const [data, setData] = useState([]);
   const [branch, setBranch] = useState("CSE");
+  const [averageCgpa, setAverageCgpa] = useState("--");
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState("");
 
@@ -24,22 +25,26 @@ export default function Home() {
       setError("");
 
       try {
-        const response = await fetch(
+        const rankingsResponse = await fetch(
           `https://rankers-eqqy.onrender.com/top/200/${branch}`,
           { signal: controller.signal }
         );
 
-        if (!response.ok) {
+        if (!rankingsResponse.ok) {
           throw new Error("Unable to load rankings right now.");
         }
 
-        const json = await response.json();
+        const json = await rankingsResponse.json();
         setData(Array.isArray(json) ? json : []);
         setStatus("success");
+
+        const average = await fetchAverageCgpa(branch, controller.signal);
+        setAverageCgpa(average);
       } catch (err) {
         if (err.name === "AbortError") return;
         setError(err.message || "Something went wrong while loading rankings.");
         setData([]);
+        setAverageCgpa("--");
         setStatus("error");
       }
     }
@@ -51,13 +56,6 @@ export default function Home() {
 
   const selectedBranch = branches.find((item) => item.value === branch);
   const topStudents = data.slice(0, 3);
-  const averageCgpa =
-    data.length > 0
-      ? (
-          data.reduce((total, student) => total + Number(student.CGPA || 0), 0) /
-          data.length
-        ).toFixed(2)
-      : "--";
 
   return (
     <main className="min-h-screen bg-[#f5f0e8] text-[#17211b]">
@@ -296,5 +294,51 @@ function StateMessage({ title, tone = "neutral" }) {
       {title}
     </div>
   );
+}
+
+async function fetchAverageCgpa(branch, signal) {
+  try {
+    const response = await fetch(
+      `https://rankers-eqqy.onrender.com/${branch}/average`,
+      { signal }
+    );
+
+    if (!response.ok) return "--";
+
+    const responseText = await response.text();
+
+    try {
+      return formatAverage(JSON.parse(responseText));
+    } catch {
+      return formatAverage(responseText);
+    }
+  } catch (err) {
+    if (err.name === "AbortError") throw err;
+    return "--";
+  }
+}
+
+function formatAverage(payload) {
+  const value = extractNumericValue(payload);
+  return value === null ? "--" : value.toFixed(2);
+}
+
+function extractNumericValue(payload) {
+  if (typeof payload === "number" && Number.isFinite(payload)) return payload;
+  if (typeof payload === "string") {
+    const numericValue = Number(payload);
+    return Number.isFinite(numericValue) ? numericValue : null;
+  }
+
+  if (!payload || typeof payload !== "object") return null;
+
+  const likelyKeys = ["average", "avg", "averageCgpa", "averageCGPA", "CGPA"];
+
+  for (const key of likelyKeys) {
+    const value = extractNumericValue(payload[key]);
+    if (value !== null) return value;
+  }
+
+  return null;
 }
 
